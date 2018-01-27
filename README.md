@@ -2,6 +2,8 @@
 
 Bienvenidos a este curso de Internet de las Cosas (IoT). En este curso aprenderemos a adquirir información de sensores y aplicar actuadores desde una tarjeta Raspberry Pi. Desarrollaremos 6 prácticas maestras donde dominaremos el control remoto de dispositivos para crear casas inteligentes.
 
+**Whatsapp**: https://chat.whatsapp.com/DYZ4DQABHoqESfr4WvFQIj
+
 ## Introducción
 
 El IoT es un campo creciente de la robótica y la computación que pretende un control inteligente de dispositivos electro-domésticos como cafeteras, lavadoras, la televisión, las puertas y persianas, de tal forma que su control sea fácil e intuitivo. Para lograr esto, existen muchos micro-controladores que han surgido en la última decada como los dispositivos Arduino y las Raspberry, los cuales nos permiten controlar puertos digitales de entrada y salida, para poder recibir información de sensores y poder aplicar actuadores como sensores de luz, humedad, magnetismo, servomotores, relés, etc.
