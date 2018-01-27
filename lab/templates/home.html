@@ -1,0 +1,50 @@
+<h1>Sensor Distancia</h1>
+
+<p id="valor"></p>
+
+<img src="/sensor/distancia/grafica">
+
+<ul id="registro"></ul>
+
+<script>
+    function obtener_distancias() {
+        return new Promise((resolve, reject) => {
+            const req = new XMLHttpRequest();
+            req.open('GET', '/sensor/distancia/log', true);
+            
+            req.onreadystatechange = () => {
+                if (req.readyState == 4) {
+                    if(req.status == 200) {
+                        const data = JSON.parse(req.responseText);
+                        resolve(data);
+                        return;
+                    }
+                    
+                    reject("Error al cargar los datos");
+                }
+            };
+            
+            req.send(null);
+        });
+    }
+
+    window.onload = () => {
+        const img = document.querySelector("img");
+        const valor = document.getElementById("valor");
+        const registro = document.getElementById("registro");
+
+        setInterval(() => {
+            img.src = `/sensor/distancia/grafica?seed=${new Date()}`;
+
+            obtener_distancias().then(distancias => {
+                valor.innerHTML = `${distancias[distancias.length - 1]}`;
+                registro.innerHTML = distancias.map(d => {
+                    return `<li>${d}</li>`;
+                }).join("");
+            }).catch(err => {
+                valor.innerHTML = err;
+                registro.innerHTML = "";
+            });
+        }, 1000);
+    };
+</script>

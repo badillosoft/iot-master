@@ -296,3 +296,202 @@ def imagen():
 
 app.run()
 ~~~
+
+## Hilos
+
+En Python es importante realizar tareas en hilos para no detener el flujo del programa y la forma más sencilla es la siguiente:
+
+~~~py
+import threading
+import time
+
+def task_1():
+    for i in range(10):
+        print("TASK 1 %d" % i)
+        time.sleep(1)
+
+def task_2():
+    for i in range(5):
+        print("TASK 2 %d" % i)
+        time.sleep(2)
+
+threading.Thread(target=task_1).start()
+threading.Thread(target=task_2).start()
+
+print("Tareas iniciadas...")
+~~~
+
+El programa anterior define dos funciones que realizan tareas similares, la primer función `task_1` imprime números del `0` al `9` cada segundo, y `task` dos imprime números del `0` al `4` cada dos segundos, ambas tareas son encapsuladas en hilos y ejecutadas en `paralelo*`. Así podemos ejecutar dos o más tareas distintas sin bloquear el flujo.
+
+## Simular sensores
+
+Como en la primera sesión no utilizaremos las raspberry, veremos como simular algunos sensores para poder hacer un poco de control automático y generar algunos reportes.
+
+Para simular un sensor podemos generar valores aleatorios cada determinado tiempo en un hilo, por ejemplo:
+
+~~~py
+import threading
+import time
+import random
+
+distancia = -1
+
+def leer_distancia():
+    global distancia
+    while True:
+        distancia = random.uniform(10, 100)
+        print("la distancia es: {} cm".format(distancia))
+        time.sleep(1)
+
+print("Tareas iniciadas...")
+threading.Thread(target=leer_distancia).start()
+~~~
+
+Ahora podemos proveer un servicio web para ver la distancia:
+
+~~~py
+from flask import Flask
+import threading
+import time
+import random
+
+app = Flask(__name__)
+
+distancia = -1
+
+def leer_distancia():
+    global distancia
+    while True:
+        distancia = random.uniform(10, 100)
+        print("la distancia es: {} cm".format(distancia))
+        time.sleep(1)
+
+print("Tareas iniciadas...")
+threading.Thread(target=leer_distancia).start()
+
+@app.route("/sensor/distancia")
+def sensor_distancia():
+    return str(distancia)
+
+print("iniciando servidor...")
+app.run()
+~~~
+
+> Inicia http://localhost:5000/sensor/distancia
+
+Ahora podemos almacenar las últimas `100` lecturas
+
+~~~py
+from flask import Flask
+import threading
+import time
+import random
+import json
+
+app = Flask(__name__)
+
+distancia = -1
+log = []
+
+def leer_distancia():
+    global distancia
+    while True:
+        distancia = random.uniform(10, 100)
+        log.append(distancia)
+        while len(log) > 100:
+            log.pop(0)
+        print("la distancia es: {} cm".format(distancia))
+        time.sleep(0.5)
+
+print("Tareas iniciadas...")
+threading.Thread(target=leer_distancia).start()
+
+@app.route("/sensor/distancia")
+def sensor_distancia():
+    return str(distancia)
+
+@app.route("/sensor/distancia/log")
+def sensor_distancia_log():
+    return json.dumps(log)
+
+print("iniciando servidor...")
+app.run()
+~~~
+
+> Inicia http://localhost:5000/sensor/distancia/log
+
+Ahora podemos generar una imagen en tiempo real de las últimas 100 lecturas de nuestro sensor simulado:
+
+~~~py
+# -*- coding: utf-8 -*-
+from flask import Flask, make_response
+from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
+from matplotlib.figure import Figure
+
+from StringIO import StringIO
+
+import threading
+import time
+import random
+import json
+
+app = Flask(__name__)
+
+distancia = -1
+log = []
+
+def leer_distancia():
+    global distancia
+    while True:
+        distancia = random.uniform(10, 100)
+        log.append(distancia)
+        while len(log) > 100:
+            log.pop(0)
+        print("la distancia es: {} cm".format(distancia))
+        time.sleep(0.5)
+
+print("Tareas iniciadas...")
+threading.Thread(target=leer_distancia).start()
+
+@app.route("/sensor/distancia")
+def sensor_distancia():
+    return str(distancia)
+
+@app.route("/sensor/distancia/log")
+def sensor_distancia_log():
+    return json.dumps(log)
+
+@app.route("/sensor/distancia/grafica")
+def sensor_distancia_grafica():
+    # Creamos una figura de imagen
+    fig = Figure()
+
+    # Creamos un lienzo donde graficar dentro de la figura
+    ax = fig.add_subplot(111)
+    
+    # Dibujamos la grafica
+    ax.plot(range(len(log)), log, '-')
+    
+    # Creamos un canvas para convertir la figura en una imagen PNG
+    canvas = FigureCanvas(fig)
+    
+    # Creamos un objeto donde colocar la imagen como texto
+    png_output = StringIO()
+
+    # Convertimos la imagen en texto dentro del objeto
+    canvas.print_png(png_output)
+    
+    # Obtenemos la respuesta que será enviada al usuario a partir del texto de la imagen
+    response = make_response(png_output.getvalue())
+    
+    # Indicamos al navegador que se trata de una imagen PNG
+    response.headers['Content-Type'] = 'image/png'
+    
+    # Enviamos la imagen
+    return response
+
+print("iniciando servidor...")
+app.run()
+~~~
+
+> Inicia http://localhost:5000/sensor/distancia/grafica
