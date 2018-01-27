@@ -6,7 +6,7 @@ Python es un lenguaje de programación muy versátil, sencillo, potente y elegan
 
 Todo lenguaje de programación posee elementos que definen la sintaxis y estructura general del código para poder ser interpretado, sin embargo, también existen paradigmas de programación que indican un modo global de cómo deberían ser escritos los programas.
 
-## Introducción a la programación
+## Introducción a la programación
 
 Para aquellos que aún no se han iniciado en la programación, deberán comprender los elementos fundamentales de como escribir programas. Un programa es un conjunto de instrucciones que recibe la computadora e interpreta para realizar operaciones agrupadas a veces en tareas.
 
@@ -109,7 +109,7 @@ print("La suma de los numeros del 1 al 100 es: %d" %s)
 
 Donde el valor de `s` será reemplazado en la cadena donde indica `%d`.
 
-## Tópicos de Python
+## Tópicos de Python
 
 Ahora pasemos a hablar de algunos temas más avanzados del lenguaje python. Comenzaremos por revisar el funcionamiento de las colecciones.
 
