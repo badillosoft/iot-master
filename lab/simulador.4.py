@@ -22,7 +22,7 @@ def leer_distancia():
         log.append(distancia)
         while len(log) > 100:
             log.pop(0)
-        print("la distancia es: {} cm".format(distancia))
+        #print("la distancia es: {} cm".format(distancia))
         time.sleep(0.5)
 
 print("Tareas iniciadas...")
