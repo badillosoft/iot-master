@@ -1,5 +1,7 @@
 # Sesión 1 - Python y los Servicios Web
 
+Por Alan Badillo Salas (badillo.soft@hotmail.com)
+
 ## Introducción
 
 Python es un lenguaje de programación muy versátil, sencillo, potente y elegante, lo que lo convierte en una excelente opción para programar. Este lenguaje ha sido implementado nativamente en sistemas operativos basados en Unix, de tal forma que al acceder a cualquier terminal podemos teclear el comando `python --version` para obtener la versión instalada de python, que generalmente será la versión `2.7.x`.
