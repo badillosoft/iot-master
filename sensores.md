@@ -88,9 +88,9 @@ El esquema textual para conectar el sensor a la `Raspberry Pi` es el siguiente:
 
 UL:vcc -> [+]
 UL:trig -> pin-trig:GPIO
-UL:echo -> R1k -> pin-echo:GPIO
-UL:gnd -> R2k |-> pin-echo:GPIO
-UL:gnd -> R2k |-> [-]
+UL:echo -> pin-echo:GPIO -> R1k
+UL:gnd -> R2k
+R1k + R2k -> [-]
 ~~~
 
 El programa de `python` encargado de leer el sensor deberá asegurarse que `TRIG` está en `LOW`, esto podría demorar más la primera vez, quizás un par de segundos. Deberemos activar `TRIG` durante `0.00001` segundos (`10uS`) para después desactivarlo nuevamente. Una vez emitido el pulso ultrasónico, deberemos leer dicho pulso mediante `ECHO`, midiendo la diferencia de los segundos desde que el pulso es `bajo` hasta que el pulso es `alto`, la duración del pulso (dicha diferencia) nos dirá cuál es la distancia del objeto por la ecuación `V = D / T` que indica la relación entre velocidad, distancia y tiempo. La velocidad del sonido es `343` metros por segundo, y el tiempo será la duración del pulso, sin embargo, la distancia se tiene que contar dos veces ya que es la distancia de ida más la de vuelta, por lo que tenemos que `34300 = (2 * d) / T` donde `T` es la duración que leímos del pulso, por lo tanto `d = 17150 * T`, la cual estará en unidades de centímetros (observa que se coloca `34300` en lugar de `343` que es la velocidad del sonido en centímetros por segundo).
