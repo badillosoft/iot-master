@@ -166,8 +166,8 @@ El esquema textual para conectar el sensor sería el siguiente:
 # [+] - 3.3v ~ 5v
 
 HT:gnd -> [-]
-HT:data -> pin-data:GPIO
 HT:vcc -> [+]
+HT:data -> pin-data:GPIO
 ~~~
 
 El programa de `python` encargado de leer el sensor utilizará el módulo `dht11.py` creada por `github:szazo` y disponible en github:
