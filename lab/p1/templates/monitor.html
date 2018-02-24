@@ -1,0 +1,168 @@
+<div class="card">
+    <span class="city">Monitor de Clima</span>
+    <ul class="menu">
+        <li></li>
+        <li></li>
+        <li></li>
+    </ul>
+    <br>
+    <div class="temp2">{{ humidity }}&#176;</div>
+    <span class="temp">{{ temperature }}&#176;</span>
+    <span>
+        <ul class="variations">
+            <li id="humidity_desc">SECO</li>
+        </ul>
+    </span>
+    <div class="forecast clear">
+        <div id="humidity_list" class="day tue">HUMEDAD
+            <br>
+            <span class="highTemp">79&#176;</span>
+            <br>
+            <span class="lowTemp">57&#176;</span>
+            <br>
+            <span class="lowTemp">57&#176;</span>
+        </div>
+        <div id="temperature_list" class="day wed">TEMPERATURA
+            <br>
+            <span class="highTemp">79&#176;</span>
+            <br>
+            <span class="lowTemp">57&#176;</span>
+            <br>
+            <span class="lowTemp">57&#176;</span>
+        </div>
+    </div>
+</div>
+
+<script>
+    window.onload = function() {
+        const humidity_buff = {{ humidity_buff | safe }};
+        const h = humidity_buff.length;
+
+        const humidity_list = document.getElementById("humidity_list");
+
+        humidity_list.innerHTML = `HUMEDAD<br>
+            <span class="highTemp">${(humidity_buff[h - 1] || 0).toFixed(1)}&#176;</span> <br>
+            <span class="lowTemp">${(humidity_buff[h - 2] || 0).toFixed(1)}&#176;</span> <br>
+            <span class="lowTemp">${(humidity_buff[h - 3] || 0).toFixed(1)}&#176;</span>
+        `;
+
+        const temperature_buff = {{ temperature_buff | safe }};
+        const t = temperature_buff.length;
+
+        const temperature_list = document.getElementById("temperature_list");
+
+        temperature_list.innerHTML = `HUMEDAD<br>
+            <span class="highTemp">${(temperature_buff[t - 1] || 0).toFixed(1)}&#176;</span> <br>
+            <span class="lowTemp">${(temperature_buff[t - 2] || 0).toFixed(1)}&#176;</span> <br>
+            <span class="lowTemp">${(temperature_buff[t - 3] || 0).toFixed(1)}&#176;</span>
+        `;
+
+        setTimeout(function () {
+            window.location.reload();
+        }, 5000); 
+    }
+</script>
+
+<style>
+    body {
+        background: #dbdbdb;
+    }
+
+    .clear {
+        clear: both;
+    }
+
+    .card {
+        width: 25em;
+        min-height: 22.5em;
+        background: #fff;
+        margin: 2em auto;
+        border-radius: .2em;
+        padding-top: 1em;
+        padding-left: 1em;
+        padding-right: 1em;
+    }
+
+    .city {
+        font-family: Roboto;
+        font-weight: 300;
+        font-size: 1.8em;
+        color: #5b5b5b;
+    }
+
+    .menu {
+        float: right;
+        font-family: Roboto;
+        font-size: .5em;
+        color: #5b5b5b;
+        margin-top: -.09em;
+        margin-right: -2em;
+        list-style: square;
+    }
+
+    .sun {
+        width: 4em;
+        height: 4em;
+        border-radius: 2.5em;
+        background: #FBD80A;
+        margin-top: 1em;
+    }
+
+    .temp2 {
+        width: 4em;
+        margin-top: 1em;
+        font-size: 3em;
+        color: #777;
+    }
+
+    .temp {
+        float: right;
+        font-family: Roboto;
+        font-weight: 300;
+        font-size: 8.5em;
+        margin-top: -.75em;
+        color: #5b5b5b;
+    }
+
+    .variations {
+        font-family: Roboto;
+        font-wight: 300;
+        color: #8c8c8c;
+        list-style: none;
+        margin-left: -2em;
+    }
+
+    .mph {
+        font-size: .8em;
+    }
+
+    .forecast {
+        width: 100%;
+        margin: 0 auto;
+    }
+
+    .day {
+        display: block;
+        width: 44%;
+        height: 9em;
+        float: left;
+        margin: 0 .375em .5em;
+        text-align: center;
+        font-family: Roboto;
+        color: #5b5b5b;
+        border-right: .1em solid #d9d9d9;
+        line-height: 2;
+    }
+
+    .fri {
+        border-right: none;
+    }
+
+    .highTemp {
+        font-weight: bold;
+    }
+
+    .lowTemp {
+        color: #8c8c8c;
+    }
+</style>
