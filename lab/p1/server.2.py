@@ -1,8 +1,10 @@
 from flask import Flask, render_template
+from flask_cors import CORS
 import sensor_simulator as sensor
 import json
 
 app = Flask(__name__)
+CORS(app)
 
 sensor.start()
 
