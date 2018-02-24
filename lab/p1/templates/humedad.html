@@ -189,10 +189,31 @@
 
         })();
         </script>
-		<script type="text/javascript">
+        <script type="text/javascript">
+            fuction humidity(cb) {
+                const xhr = new XMLHttpRequest();
+
+                xhr.open("GET", "https://7a78617d79.dataplicity.io/api/sensor/humidity", true);
+
+                xhr.onreadystatechange = () => {
+                    if (req.readyState == 4) {
+                        if(req.status == 200) {
+                            const data = Number(req.responseText);
+                            cb(data);
+                            return;
+                        }
+                        
+                        reject("Error al cargar los datos");
+                    }
+                };
+            
+                xhr.send(null);
+            }
+
 			setInterval(function(){
-				needle.moveTo({{ humidity }} / 100);
-                window.location.reload();
+				humidity(h => {
+                    needle.moveTo(h / 100);
+                });
 			}, 5000);
 		</script>
 	</body>
