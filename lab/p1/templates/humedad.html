@@ -182,9 +182,6 @@
 
             })();
 
-            needle = new Needle(chart);
-            needle.render();
-
             // needle.moveTo(percent);
 
         })();
@@ -196,9 +193,9 @@
                 xhr.open("GET", "https://7a78617d79.dataplicity.io/api/sensor/humidity", true);
 
                 xhr.onreadystatechange = () => {
-                    if (req.readyState == 4) {
-                        if(req.status == 200) {
-                            const data = Number(req.responseText);
+                    if (xhr.readyState == 4) {
+                        if(xhr.status == 200) {
+                            const data = Number(xhr.responseText);
                             cb(data);
                             return;
                         }
@@ -215,6 +212,15 @@
                     needle.moveTo(h / 100);
                 });
 			}, 5000);
+
+            window.onload = () => {
+                needle = new Needle(chart);
+                needle.render();
+
+                humidity(h => {
+                    needle.moveTo(h / 100);
+                });
+            };
 		</script>
 	</body>
 
