@@ -37,7 +37,7 @@ Lo primero que debemos hacer es crear un script de python que contenga un servid
 > /server_test.py
 
 ~~~py
-from from flask import Flask
+from flask import Flask
 app = Flask(__name__)
 @app.route("/")
 def home():
