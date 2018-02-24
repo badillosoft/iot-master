@@ -18,7 +18,7 @@ def sensor_stop():
 
 @app.route("/")
 def home():
-    return render_template("monitor.html",
+    return render_template("humedad.html",
         humidity=int(sensor.humidity),
         temperature=int(sensor.temperature),
         valid=sensor.valid,
