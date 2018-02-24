@@ -191,7 +191,7 @@
         </script>
 		<script type="text/javascript">
 			setInterval(function(){
-				needle.moveTo({{ humidity }});
+				needle.moveTo({{ humidity }} / 100);
                 window.location.reload();
 			}, 5000);
 		</script>
