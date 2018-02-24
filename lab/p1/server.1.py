@@ -41,4 +41,4 @@ def sensor_temperature():
 def sensor_temperature_buff():
     return json.dumps(sensor.temperature_buff)
 
-app.run()
+app.run(port=80)
