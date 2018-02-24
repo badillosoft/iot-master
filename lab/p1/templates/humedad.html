@@ -191,7 +191,8 @@
         </script>
 		<script type="text/javascript">
 			setInterval(function(){
-				needle.moveTo(Math.random());
+				needle.moveTo({{ humidity }});
+                window.location.reload();
 			}, 5000);
 		</script>
 	</body>
