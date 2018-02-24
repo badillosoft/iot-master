@@ -190,7 +190,7 @@
         })();
         </script>
         <script type="text/javascript">
-            fuction humidity(cb) {
+            function humidity(cb) {
                 const xhr = new XMLHttpRequest();
 
                 xhr.open("GET", "https://7a78617d79.dataplicity.io/api/sensor/humidity", true);
@@ -210,7 +210,7 @@
                 xhr.send(null);
             }
 
-			setInterval(function(){
+			setInterval(function() {
 				humidity(h => {
                     needle.moveTo(h / 100);
                 });
