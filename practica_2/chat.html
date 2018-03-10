@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Cliente</title>
+</head>
+<body>
+    <input id="txt_message" type="text" placeholder="Escribe un mensaje">
+    <button onclick="enviar()">enviar</button>
+
+    <ul id="chats">
+        <li>hola como estás?</li>
+        <li>bien-tos</li>
+    </ul>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
+    <script>
+        let socket = null;
+
+        function add_message(message) {
+            const ul = document.getElementById("chats");
+
+            const li = document.createElement("li");
+
+            li.innerHTML = message;
+
+            ul.appendChild(li);
+        }
+
+        function enviar() {
+            const txt_message = document.getElementById("txt_message");
+            socket.send("x", {
+                user: "pepe",
+                message: txt_message.value
+            });
+            txt_message.value = "";
+        }
+
+        window.onload = () => {
+            // Creamos un cliente socket.io (el servidor está montado en http://localhost:8000)
+            socket = io('http://localhost:8000');
+
+            socket.on("evento_3", message => {
+                add_message(message);
+            });
+        };
+    </script>
+</body>
+</html>
