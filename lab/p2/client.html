@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Cliente</title>
+</head>
+<body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
+    <script>
+        window.onload = () => {
+            // Creamos un cliente socket.io (el servidor está montado en http://localhost:8000)
+            const socket = io('http://localhost:8000');
+
+            // Configuramos el evento `connect`
+            socket.on('connect', () => {
+                console.log("Conectado");
+            });
+
+            // Configuramos el evento `reply`
+            socket.on('reply', data => {
+                console.log("Respuesta:", data);
+            });
+
+            // Configuramos el evento `connect`
+            socket.on('disconnect', () => {
+                console.log("Desconectado");
+            });
+
+            // Enviamos algunos mensajes
+            socket.send("evento_1", "Hola mundo");
+            socket.send("evento_2", { a: 123, b: true });
+        };
+    </script>
+</body>
+</html>
